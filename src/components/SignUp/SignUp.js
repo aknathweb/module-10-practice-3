@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Contexts/UserContext';
+
 
 
 const SignUp = () => {
     const [error, setError] = useState(null);
+    //Signup 
+    const { createUser } = useContext(AuthContext);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -21,6 +25,13 @@ const SignUp = () => {
             setError('Your Password did not match');
             return;
         }
+        //Signup data collect and send firebase
+        createUser(email, password).then((result) => {
+            const user = result.user;
+        })
+            .catch((error) => {
+                error(error);
+            });
     }
 
     return (
