@@ -2,7 +2,8 @@ import React, { createContext } from 'react';
 
 export const AuthContext = createContext();
 const UserContext = ({ children }) => {
-    const authInfo = {};
+    const user = { email: 'anik@gmail.com' }
+    const authInfo = { user };
     return (
         <AuthContext.Provider value={authInfo}>
             {children}
