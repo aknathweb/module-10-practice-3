@@ -8,25 +8,33 @@ const auth = getAuth(app);
 const UserContext = ({ children }) => {
     const [user, setUser] = useState(null);
 
+    // loading use to solve onAuthStateChanged promise delay 
+    const [loading, setLoading] = useState(true);
+
     // new user create using firebase formula
     const createUser = (email, password) => {
+        setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     }
     // new user signIn using firebase formula
     const signIn = (email, password) => {
-        return signInWithEmailAndPassword(auth, email, password);
+        setLoading(true);
+        return signInWithEmailAndPassword(auth, email, password, loading);
     }
     // new user singOut using firebase formula
     const logOut = () => {
+        setLoading(true);
         return signOut(auth);
     }
 
-    //manage user, to check currently signed-in user
+    //manage user, to check currently signed-in user from firebase
     useEffect(() => {
-        onAuthStateChanged(auth, currentUser => {
+        const unSubscribe = onAuthStateChanged(auth, currentUser => {
             console.log('current user check:', currentUser);
             setUser(currentUser);
-        })
+            setLoading(false);
+        });
+        return () => unSubscribe();
     }, [])
 
     //to use another palace as useContext

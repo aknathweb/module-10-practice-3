@@ -1,13 +1,21 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/UserContext';
 import './Login.css'
 
 const Login = () => {
     // to set navigate path
     const navigate = useNavigate();
+
+    // take the location value
+    const location = useLocation();
+    // take location path information
+    const from = location.state?.from?.pathname || "/";
+
+
     //SignIn data collect
     const { signIn } = useContext(AuthContext);
+
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -21,7 +29,9 @@ const Login = () => {
                 const user = result.user;
                 console.log("Sign Up user: ", user);
                 form.reset();
-                navigate('/');
+                // navigate('/');
+                navigate(from, { replace: true });
+
             })
             .catch(error => console.error(error));
     }
