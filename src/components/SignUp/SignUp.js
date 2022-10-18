@@ -1,10 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/UserContext';
 
 
 
 const SignUp = () => {
+    // to set navigate path
+    const navigate = useNavigate();
+    //to set error
     const [error, setError] = useState(null);
     //Signup 
     const { createUser } = useContext(AuthContext);
@@ -28,6 +31,9 @@ const SignUp = () => {
         //Signup data collect and send firebase
         createUser(email, password).then((result) => {
             const user = result.user;
+            console.log("Sign Up user: ", user);
+            form.reset();
+            navigate('/');
         })
             .catch((error) => {
                 error(error);

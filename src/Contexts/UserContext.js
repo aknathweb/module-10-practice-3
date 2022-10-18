@@ -1,5 +1,5 @@
-import React, { createContext, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import React, { createContext, useEffect, useState } from 'react';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import app from '../firebase/firebase.init';
 
 export const AuthContext = createContext();
@@ -21,7 +21,16 @@ const UserContext = ({ children }) => {
         return signOut(auth);
     }
 
-    const authInfo = { user, createUser, signIn };
+    //manage user, to check currently signed-in user
+    useEffect(() => {
+        onAuthStateChanged(auth, currentUser => {
+            console.log('current user check:', currentUser);
+            setUser(currentUser);
+        })
+    }, [])
+
+    //to use another palace as useContext
+    const authInfo = { user, createUser, signIn, logOut };
 
     return (
         <AuthContext.Provider value={authInfo}>

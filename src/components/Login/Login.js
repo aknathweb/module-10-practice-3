@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/UserContext';
 import './Login.css'
 
 const Login = () => {
+    // to set navigate path
+    const navigate = useNavigate();
     //SignIn data collect
     const { signIn } = useContext(AuthContext);
 
@@ -17,8 +19,9 @@ const Login = () => {
         signIn(email, password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                console.log("Sign Up user: ", user);
                 form.reset();
+                navigate('/');
             })
             .catch(error => console.error(error));
     }
