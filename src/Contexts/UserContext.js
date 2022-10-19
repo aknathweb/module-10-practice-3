@@ -38,7 +38,7 @@ const UserContext = ({ children }) => {
     }, [])
 
     //to use another palace as useContext
-    const authInfo = { user, createUser, signIn, logOut };
+    const authInfo = { user, loading, createUser, signIn, logOut };
 
     return (
         <AuthContext.Provider value={authInfo}>

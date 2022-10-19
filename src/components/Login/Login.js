@@ -10,7 +10,8 @@ const Login = () => {
     // take the location value
     const location = useLocation();
     // take location path information
-    const from = location.state?.from?.pathname || "/";
+    const from = location.state?.from?.pathname || "/shipping";
+
 
 
     //SignIn data collect
@@ -29,8 +30,12 @@ const Login = () => {
                 const user = result.user;
                 console.log("Sign Up user: ", user);
                 form.reset();
+
+                // navigate(from, { replace: true });
+                navigate('/shipping', { replace: true });
                 // navigate('/');
-                navigate(from, { replace: true });
+                console.log("Login route: ", from);
+
 
             })
             .catch(error => console.error(error));
